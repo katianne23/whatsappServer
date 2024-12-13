@@ -1,20 +1,28 @@
-
+const express = require('express');
 const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const socketIo = require('socket.io');
+const http = require('http');
 const { PrismaClient } = require('@prisma/client'); // Importa o cliente do Prisma
 
 // Inicialize o cliente do Prisma
 const prisma = new PrismaClient();
 
+// Crie o servidor Express
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
 // Crie um cliente do WhatsApp
 const client = new Client();
 
-client.on('qr', async (qr) => {
+// Quando o cliente gerar o QR Code, envie para o frontend via WebSocket
+client.on('qr', (qr) => {
     console.log('QR Code gerado');
-    const qrCodeData = await qrcode.toDataURL(qr); // Gera uma URL de QR code
-    // Salve o QR em algum armazenamento persistente ou envie via WebSocket
+    io.emit('qr', qr);  // Envia o QR Code para o frontend
 });
 
+// Quando o cliente estiver pronto
 client.on('ready', () => {
     console.log('O cliente está pronto!');
 });
@@ -71,6 +79,12 @@ client.on('message', async (message) => {
 // Inicialize o cliente do WhatsApp Web
 client.initialize();
 
-module.exports = (req, res) => {
-    res.status(200).json({ message: 'API funcionando!' });
-};
+// Servir a página frontend (no diretório public)
+app.use(express.static('public'));
+
+// Iniciar o servidor na porta 3000
+server.listen(3000, () => {
+    console.log('Servidor rodando na porta 3000');
+});
+
+
