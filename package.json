@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "prisma generate && node server.js",
+     "start": "prisma generate && node server.js"
   },
   "keywords": [],
   "author": "",
