@@ -91,7 +91,7 @@
 const express = require('express');
 const { Client } = require('whatsapp-web.js');
 const { PrismaClient } = require('@prisma/client');
-const qrcode = require('qrcode');
+const qrcode = require('qrcode-terminal');
 
 // Inicialize o cliente do Prisma
 const prisma = new PrismaClient();
