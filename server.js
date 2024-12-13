@@ -1,8 +1,8 @@
 const express = require('express');
 const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const socketIo = require('socket.io');
-const http = require('http');
+// const socketIo = require('socket.io');
+// const http = require('http');
 const { PrismaClient } = require('@prisma/client'); // Importa o cliente do Prisma
 
 // Inicialize o cliente do Prisma
