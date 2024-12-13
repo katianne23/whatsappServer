@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Web QR Code</title>
+</head>
+<body>
+    <h1>Escaneie o QR Code com o WhatsApp</h1>
+    <div id="qrcode-container">
+        <!-- O QR Code será exibido aqui -->
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Conecte-se ao WebSocket do servidor
+        const socket = io();
+
+        // Quando o servidor enviar o QR Code, exiba-o
+        socket.on('qr', (qr) => {
+            console.log('QR Code recebido', qr);
+
+            // Gerar o QR Code como uma imagem
+            const qrcodeImg = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qr)}&size=200x200`;
+
+            // Exibir o QR Code na página
+            const qrContainer = document.getElementById('qrcode-container');
+            qrContainer.innerHTML = `<img src="${qrcodeImg}" alt="QR Code">`;
+        });
+    </script>
+</body>
+</html>
