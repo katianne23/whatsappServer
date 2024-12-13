@@ -26,6 +26,11 @@
             // Exibir o QR Code na página
             const qrContainer = document.getElementById('qrcode-container');
             qrContainer.innerHTML = `<img src="${qrcodeImg}" alt="QR Code">`;
+            
+        });
+        socket.on('ready', () => {
+            const connectionStatus = document.getElementById('connection-status');
+            connectionStatus.innerHTML = '<p>Conexão estabelecida com sucesso! WhatsApp Web está pronto.</p>';
         });
     </script>
 </body>
